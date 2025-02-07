@@ -1,5 +1,14 @@
 ﻿@page "/"
+
+@* Importamos modelos desde el proyecto compartido  . . .. .*@
+@using PokeApi.Shared.Models
+
+@* Importamos el servicio de la API de Pokemons  . . . . . .. *@
 @inject PokeApi.Services.PokeApiService pokeApiService
+
+
+
+
 
 <PageTitle>Home</PageTitle>
 
@@ -25,7 +34,7 @@ else
 
 @code {
     // Lista para almacenar los pokemones obtenidos de la API
-    private List<PokeApi.Models.PokemonListInfo>? pokemons;
+    private List<PokemonListInfo>? pokemons;
 
     // Método que se ejecuta al inicializar el componente
     protected override async Task OnInitializedAsync()
