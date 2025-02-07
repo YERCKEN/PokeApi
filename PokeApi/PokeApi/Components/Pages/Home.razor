@@ -1,0 +1,35 @@
+﻿@page "/"
+@inject PokeApi.Services.PokeApiService pokeApiService
+
+<PageTitle>Home</PageTitle>
+
+<h1>Lista de Pokemons</h1>
+
+@if (pokemons == null)
+{
+    <p>Cargando datos...</p>
+}
+else if (pokemons.Count == 0)
+{
+    <p>No se encontraron datos.</p>
+}
+else
+{
+    <ul>
+        @foreach (var pokemon in pokemons)
+        {
+            <li>@pokemon.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    // Lista para almacenar los pokemones obtenidos de la API
+    private List<PokeApi.Models.PokemonListInfo>? pokemons;
+
+    // Método que se ejecuta al inicializar el componente
+    protected override async Task OnInitializedAsync()
+    {
+        pokemons = await pokeApiService.GetPokemonListAsync();
+    }
+}
