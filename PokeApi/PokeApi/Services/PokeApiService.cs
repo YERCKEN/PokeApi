@@ -1,5 +1,7 @@
 ﻿    using RestSharp;
-    using PokeApi.Models;
+
+    // importamos los modelos desde el proyecto compartido
+    using PokeApi.Shared.Models;
 
     namespace PokeApi.Services
         {
