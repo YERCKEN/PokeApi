@@ -3,6 +3,9 @@ using PokeApi.Client.Pages;
 using PokeApi.Components;
 using PokeApi.Services;
 
+// Añadimos los servicios del proyecto compartido (para utilizar la interfaz)
+using PokeApi.Shared.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +14,13 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-// AÑADIMOS EL SERVICIO DE POKEMON
+// AÑADIMOS EL SERVICIO DE POKEMON --------------------------------------------------------------------------------------
 // AddTransient = Crea una nueva instancia del servicio cada vez que se solicita (RECOMENDABLE APIS EXTERNAS)
 // AddScoped = Crea una instancia por sesión del usuario
-
 builder.Services.AddTransient< PokeApiService>();
+
+// SERVICIO QUE envía 10 números en un vector (para test)
+builder.Services.AddScoped<INumbersServicesShared, NumbersServices>();
 
 
 var app = builder.Build();

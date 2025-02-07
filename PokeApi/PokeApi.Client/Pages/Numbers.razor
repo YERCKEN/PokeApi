@@ -1,0 +1,27 @@
+﻿@page "/numbers"
+
+@* Importamos los servicios desde el proyecto copartido  . . . . .*@
+@using PokeApi.Shared.Services
+@inject INumbersServicesShared NumbersServices
+
+
+<h3>Numbers</h3>
+
+@* Mostramos los números del 1 al 10 en la lista *@
+<ul>
+    @foreach (var number in _numbers)
+    {
+        <li>@number</li>
+    }
+</ul>
+
+@code {
+
+    // Definimos un array de enteros para almacenar los números aleatorios
+    private int[] _numbers = [];
+
+    // Obtenemos los números aleatorios
+    protected override async Task OnInitializedAsync() { 
+        _numbers = await NumbersServices.GetNumbersAsync();
+    }
+}
