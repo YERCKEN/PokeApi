@@ -1,12 +1,13 @@
-﻿    using RestSharp;
+﻿using RestSharp;
+// importamos los modelos desde el proyecto compartido
+using PokeApi.Shared.Models;
+// Importamos el servicio compartido para usar la interfaz
+using PokeApi.Shared.Services;
 
-    // importamos los modelos desde el proyecto compartido
-    using PokeApi.Shared.Models;
-
-    namespace PokeApi.Services
+namespace PokeApi.Services
         {
-            public class PokeApiService
-            {
+            public class PokeApiService : IPokeApiServiceShared
+    {
 
                     // cliente HTTP 
                     private readonly RestClient _client;

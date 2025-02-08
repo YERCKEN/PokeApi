@@ -4,7 +4,8 @@
 @using PokeApi.Shared.Models
 
 @* Importamos el servicio de la API de Pokemons  . . . . . .. *@
-@inject PokeApi.Services.PokeApiService pokeApiService
+@using PokeApi.Shared.Services
+@inject IPokeApiServiceShared PokeApiService
 
 
 
@@ -37,6 +38,6 @@ else
     // Método que se ejecuta al inicializar el componente
     protected override async Task OnInitializedAsync()
     {
-        pokemons = await pokeApiService.GetPokemonListAsync();
+        pokemons = await PokeApiService.GetPokemonListAsync();
     }
 }
