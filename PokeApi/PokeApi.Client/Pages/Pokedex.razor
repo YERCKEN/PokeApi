@@ -10,39 +10,65 @@
 @inject IPokeApiServiceShared PokeApiService
 
 
+@* Agregamos componente con las carácteristicas del pokemon y le enviamos el parametro*@
+<div class="col-sm border border-secondary">
 
-@if (pokemons == null)
-{
-    <p>Cargando datos...</p>
-}
-else if (pokemons.Count == 0)
-{
-    <p>No se encontraron datos.</p>
-}
-else
-{
-    <ul>
-        @foreach (var pokemon in pokemons)
-        {
-            <li>@pokemon.Name</li>
+    <Pokemon Name="@_selectedPokemonName" />
 
-        }
-    </ul>
-}
+</div>
 
-<div>h1 contenido izq</div>
+@* Lista de Pokemones ------------------------------------------------------------- *@
 
-@code {
-    // Lista para almacenar los pokemones obtenidos de la API
-    private List<PokemonListInfo>? pokemons;
-   
+<div class="col-sm border border-primary">
 
-    // Método que se ejecuta al inicializar el componente
-    protected override async Task OnInitializedAsync()
+
+    @if (_pokemons == null)
     {
-        pokemons = await PokeApiService.GetPokemonListAsync();
+        <p>Cargando datos...</p>
+    }
+    else if (_pokemons.Count == 0)
+    {
+        <p>No se encontraron datos.</p>
+    }
+    else // Si hay datos, se muestra la lista de pokemones
+    {
+        <ul class="list-group">
+            @foreach (var pokemon in _pokemons)
+            {
+                <li class="list-group-item cursor-pointer"
+                    @onclick="() => SelectPokemon(pokemon.Name)">
+                    @pokemon.Name
+                </li>
+            }
+        </ul>
     }
 
+</div>
 
+@code {
+    private List<PokemonListInfo>? _pokemons;
 
+    // Nombre del Pokémon seleccionado inciialmente vacío
+    private string _selectedPokemonName = string.Empty;
+
+    // Método para seleccionar un Pokémon
+    private void SelectPokemon(string name)
+    {
+        if (!string.IsNullOrEmpty(name))
+        {
+            _selectedPokemonName = name;
+        }
+    }
+
+    // Método para obtener la lista de pokemones AL INICIAR la página
+    protected override async Task OnInitializedAsync()
+    {
+        _pokemons = await PokeApiService.GetPokemonListAsync();
+
+        // Selecciona el primer Pokémon por defecto si existe
+        if (_pokemons?.Count > 0)
+        {
+            _selectedPokemonName = _pokemons.First().Name;
+        }
+    }
 }

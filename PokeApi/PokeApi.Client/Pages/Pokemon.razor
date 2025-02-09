@@ -1,8 +1,7 @@
-﻿@page "/pokemon/{Name}"
-
+﻿
 @rendermode InteractiveAuto
 
-@* Importamos los modelos y servicios compartidos*@
+@* Importamos los modelos y servicios compartidos y inyectamos la interfaz*@
 @using PokeApi.Shared.Models
 @using PokeApi.Shared.Services
 @inject IPokeApiServiceShared PokeApiService
@@ -12,15 +11,25 @@
 
 @if (pokemon == null)
 {
-    <p>Cargando...</p>
+    <p>Selecciona un Pokémon</p>
 }
+// Si se encontró un pokemón, se muestra la información
 else
 {
+
     <div class="pokemon-card">
 
-        <img src="@ImgPokemon" alt="@pokemon.Name" />
+        @* Se muestra la imagen del pokemón si existe *@
+        @if (!string.IsNullOrEmpty(ImgPokemon))
+        {
+            <img src="@ImgPokemon" alt="@pokemon.Name" />
+        }
 
-        <h2>@pokemon.Name.ToUpper()</h2>
+        @* Se muestra el nombre del pokemón si existe *@
+        @if (!string.IsNullOrEmpty(pokemon.Name))
+        {
+            <h2>@pokemon.Name.ToUpper()</h2>
+        }
 
         <div class="types">
             @foreach (var type in pokemon.Types)
@@ -28,6 +37,8 @@ else
                 <span class="type-badge">@type.Type.Name.ToUpper()</span>
             }
         </div>
+
+        @* Se muestran las habilidades del pokemon *@
 
         <h1>Habilidades</h1>
 
@@ -45,27 +56,37 @@ else
 
 @code {
 
-    //Nombre del pokemón que se recibe por parámetro
     [Parameter]
-    public string Name { get; set; }
-    //Imagen del pokemón
-    public string ImgPokemon;
-    //Características del pokemón
+    public string Name { get; set; } = string.Empty;
     private PokemonCharacteristics? pokemon;
+    private string? ImgPokemon;
 
-    protected override async Task OnInitializedAsync()
+    //OnParametersSetAsync para detectar cambios en el parámetro
+    protected override async Task OnParametersSetAsync()
     {
-
-        pokemon = await PokeApiService.GetPokemonByNameAsync(Name);
-
-        //verificamos si no encontramos un pokemon
-        if (pokemon == null)
+        if (string.IsNullOrWhiteSpace(Name))
+        {
+            pokemon = null;
             return;
+        }
 
-        //Obteneos la imagen 
-        ImgPokemon = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokemon.Id}.png";
+        try
+        {
+            pokemon = await PokeApiService.GetPokemonByNameAsync(Name);
 
-
+            if (pokemon != null && !string.IsNullOrEmpty(pokemon.Name))
+            {
+                ImgPokemon = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokemon.Id}.png";
+            }
+            else
+            {
+                pokemon = null;
+            }
+        }
+        catch
+        { 
+            Console.WriteLine($"Error al obtener el pokemón");
+            pokemon = null;
+        }
     }
 }
-
