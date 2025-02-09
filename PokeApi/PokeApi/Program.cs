@@ -18,8 +18,6 @@ builder.Services.AddRazorComponents()
 // AddTransient = Crea una nueva instancia del servicio cada vez que se solicita (RECOMENDABLE APIS EXTERNAS)
 // AddScoped = Crea una instancia por sesión del usuario
 
-// SERVICIO QUE envía 10 números en un vector (para test)
-builder.Services.AddScoped<INumbersServicesShared, NumbersServices>();
 // SERVICIO QUE envía 100 pokemones
 builder.Services.AddScoped<IPokeApiServiceShared, PokeApiService>();
 
