@@ -11,7 +11,7 @@
 
 
 @* Agregamos componente con las carácteristicas del pokemon y le enviamos el parametro*@
-<div class="col-sm border border-secondary">
+<div class="col-sm PokeList">
 
     <Pokemon Name="@_selectedPokemonName" />
 
@@ -19,7 +19,7 @@
 
 @* Lista de Pokemones ------------------------------------------------------------- *@
 
-<div class="col-sm border border-primary">
+<div class="col-sm  PokeList">
 
 
     @if (_pokemons == null)
@@ -32,15 +32,19 @@
     }
     else // Si hay datos, se muestra la lista de pokemones
     {
-        <ul class="list-group">
+        <div class=" list-group d-grid listPokeBtns">
+         
             @foreach (var pokemon in _pokemons)
-            {
-                <li class="list-group-item cursor-pointer"
-                    @onclick="() => SelectPokemon(pokemon.Name)">
-                    @pokemon.Name
-                </li>
-            }
-        </ul>
+                {
+                    <button class="cursor-pointer list-group-item" id="pokeListBtn" @onclick="() => SelectPokemon(pokemon.Name)">
+
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Alternate Text" />
+                        @pokemon.Name
+                    </button>
+
+                 
+                }
+        </div>
     }
 
 </div>
@@ -50,6 +54,11 @@
 
     // Nombre del Pokémon seleccionado inciialmente vacío
     private string _selectedPokemonName = string.Empty;
+
+    //Contador para mostrar la imagen de cada pokemon
+    private int count = 1;
+
+
 
     // Método para seleccionar un Pokémon
     private void SelectPokemon(string name)

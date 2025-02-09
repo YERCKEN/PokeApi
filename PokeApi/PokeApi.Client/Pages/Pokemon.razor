@@ -20,34 +20,67 @@ else
     <div class="pokemon-card">
 
         @* Se muestra la imagen del pokemón si existe *@
-        @if (!string.IsNullOrEmpty(ImgPokemon))
-        {
-            <img src="@ImgPokemon" alt="@pokemon.Name" />
-        }
+        <div class="row">
+
+            <div class="col-12 text-center p-3">
+
+        
+                @if (!string.IsNullOrEmpty(ImgPokemon))
+                {
+                    <img class="w-50" src="@ImgPokemon" alt="@pokemon.Name" />
+                }
+
+            </div>
+        </div>
 
         @* Se muestra el nombre del pokemón si existe *@
-        @if (!string.IsNullOrEmpty(pokemon.Name))
-        {
-            <h2>@pokemon.Name.ToUpper()</h2>
-        }
+        <div class="row">
+            <div class="col-12 text-center pokeName">
+                @if (!string.IsNullOrEmpty(pokemon.Name))
+                {
+                    <h2>@pokemon.Name.ToUpper()</h2>
+                }
+            </div>
+        </div>
 
-        <div class="types">
+        @* Labe Tipo ----------------------------------------------------------------------------------- *@
+        <div class="row mt-4">
+            <div class="col-12 text-start  ">
+                <p class="fw-light fst-italic text-secondary">Tipos</p>
+            </div>
+        </div>
+
+        <div class="row mt-2 justify-content-center ">
+
             @foreach (var type in pokemon.Types)
             {
-                <span class="type-badge">@type.Type.Name.ToUpper()</span>
+                <div class="col-6 text-center p-3 border rounded @GetTypeClass(type.Type.Name)">
+
+                    <span class="type-badge text-white text-bold ">@type.Type.Name</span>
+
+                </div>  
             }
+
         </div>
 
         @* Se muestran las habilidades del pokemon *@
 
-        <h1>Habilidades</h1>
+        @* Labe Habilidades ------------------------------------------------------------ *@
+        <div class="row mt-4">
+            <div class="col-12 text-start text-secondary">
+                <p class="fw-light fst-italic">Habilidades</p>
+            </div>
+        </div>
 
-        <div class="abilities">
+        <div class="row mt-2 justify-content-center">
 
             @foreach (var ability in pokemon.Abilities)
             {
-                <span class="type-badge">@ability.Ability.Name.ToUpper()</span>
-                <br />
+                <div class="col-6 text-center p-3 border rounded">
+
+                    <span class="type-badge">@ability.Ability.Name</span>
+
+                </div>
             }
         </div>
 
@@ -88,5 +121,38 @@ else
             Console.WriteLine($"Error al obtener el pokemón");
             pokemon = null;
         }
+
+
+
     }
+
+    // Método para obtener la clase de los tipos
+    private string GetTypeClass(string typeName)
+    {
+        return typeName switch
+        {
+            "normal" => "bg-normal",
+            "fighting" => "bg-fighting",
+            "flying" => "bg-flying",
+            "poison" => "bg-poison",
+            "ground" => "bg-ground",
+            "rock" => "bg-rock",
+            "bug" => "bg-bug",
+            "ghost" => "bg-ghost",
+            "steel" => "bg-steel",
+            "fire" => "bg-fire",
+            "water" => "bg-water",
+            "grass" => "bg-grass",
+            "electric" => "bg-electric",
+            "psychic" => "bg-psychic",
+            "ice" => "bg-ice",
+            "dragon" => "bg-dragon",
+            "dark" => "bg-dark",
+            "fairy" => "bg-fairy",
+            "stellar" => "bg-stellar",
+            "unknown" => "bg-unknown",
+            _ => ""
+        };
+    }
+
 }

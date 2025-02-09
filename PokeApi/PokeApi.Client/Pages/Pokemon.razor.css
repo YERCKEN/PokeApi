@@ -1,0 +1,86 @@
+﻿/*NOMBRE DEL POKEMON*/
+.pokeName {
+    font-family: "Roboto", serif;
+    font-style: italic;
+}
+
+/*DEFINICION DE LOS COLORES DE LOS TIPOS*/
+.bg-normal {
+    background-color: #A8A77A;
+}
+
+.bg-fighting {
+    background-color: #C22E28;
+}
+
+.bg-flying {
+    background-color: #A98FF3;
+}
+
+.bg-poison {
+    background-color: #A33EA1;
+}
+
+.bg-ground {
+    background-color: #6D2F28;
+}
+
+.bg-rock {
+    background-color: #B6A136;
+}
+
+.bg-bug {
+    background-color: #A8B820;
+}
+
+.bg-ghost {
+    background-color: #6F38C0;
+}
+
+.bg-steel {
+    background-color: #B7B7CE;
+}
+
+.bg-fire {
+    background-color: #F08030;
+}
+
+.bg-water {
+    background-color: #6890F0;
+}
+
+.bg-grass {
+    background-color: #78C850;
+}
+
+.bg-electric {
+    background-color: #F8D030;
+}
+
+.bg-psychic {
+    background-color: #F85888;
+}
+
+.bg-ice {
+    background-color: #98D8D8;
+}
+
+.bg-dragon {
+    background-color: #7038F8;
+}
+
+.bg-dark {
+    background-color: #705848;
+}
+
+.bg-fairy {
+    background-color: #EE99AC;
+}
+
+.bg-stellar {
+    background-color: #4A90E2;
+}
+
+.bg-unknown {
+    background-color: #68A090;
+}

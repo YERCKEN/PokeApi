@@ -1,0 +1,26 @@
+﻿
+.PokeList {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 3rem;
+    border-radius: 10px;
+}
+
+.listPokeBtns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+
+.PokeList button {
+    background-color: white;
+    margin-top: 20px;
+}
+
+.PokeList button img{
+
+    width: 50px;
+    margin: 0;
+
+ }
+
