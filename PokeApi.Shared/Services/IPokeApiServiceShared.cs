@@ -9,5 +9,10 @@ namespace PokeApi.Shared.Services
     {
         // Metodo para obtener un listado de 100 pokemons
         Task<List<PokemonListInfo>> GetPokemonListAsync();
+
+        // Metodo para obtener un pokemon por su nombre
+        Task<PokemonCharacteristics?> GetPokemonByNameAsync(string name);
     }
+
+
 }

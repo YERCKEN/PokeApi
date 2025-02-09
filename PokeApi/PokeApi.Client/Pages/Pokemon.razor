@@ -1,0 +1,71 @@
+﻿@page "/pokemon/{Name}"
+
+@rendermode InteractiveAuto
+
+@* Importamos los modelos y servicios compartidos*@
+@using PokeApi.Shared.Models
+@using PokeApi.Shared.Services
+@inject IPokeApiServiceShared PokeApiService
+
+
+@* Verificamos si se encontró algún pokemón*@
+
+@if (pokemon == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="pokemon-card">
+
+        <img src="@ImgPokemon" alt="@pokemon.Name" />
+
+        <h2>@pokemon.Name.ToUpper()</h2>
+
+        <div class="types">
+            @foreach (var type in pokemon.Types)
+            {
+                <span class="type-badge">@type.Type.Name.ToUpper()</span>
+            }
+        </div>
+
+        <h1>Habilidades</h1>
+
+        <div class="abilities">
+
+            @foreach (var ability in pokemon.Abilities)
+            {
+                <span class="type-badge">@ability.Ability.Name.ToUpper()</span>
+                <br />
+            }
+        </div>
+
+    </div>
+}
+
+@code {
+
+    //Nombre del pokemón que se recibe por parámetro
+    [Parameter]
+    public string Name { get; set; }
+    //Imagen del pokemón
+    public string ImgPokemon;
+    //Características del pokemón
+    private PokemonCharacteristics? pokemon;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        pokemon = await PokeApiService.GetPokemonByNameAsync(Name);
+
+        //verificamos si no encontramos un pokemon
+        if (pokemon == null)
+            return;
+
+        //Obteneos la imagen 
+        ImgPokemon = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokemon.Id}.png";
+
+
+    }
+}
+

@@ -1,43 +1,6 @@
 ﻿@page "/"
 
-@* Importamos modelos desde el proyecto compartido  . . .. .*@
-@using PokeApi.Shared.Models
-
-@* Importamos el servicio de la API de Pokemons  . . . . . .. *@
-@using PokeApi.Shared.Services
-@inject IPokeApiServiceShared PokeApiService
-
-
-
 <PageTitle>Home</PageTitle>
 
-<h1>Lista de Pokemons</h1>
+<h1>HOME</h1>
 
-@if (pokemons == null)
-{
-    <p>Cargando datos...</p>
-}
-else if (pokemons.Count == 0)
-{
-    <p>No se encontraron datos.</p>
-}
-else
-{
-    <ul>
-        @foreach (var pokemon in pokemons)
-        {
-            <li>@pokemon.Name</li>
-        }
-    </ul>
-}
-
-@code {
-    // Lista para almacenar los pokemones obtenidos de la API
-    private List<PokemonListInfo>? pokemons;
-
-    // Método que se ejecuta al inicializar el componente
-    protected override async Task OnInitializedAsync()
-    {
-        pokemons = await PokeApiService.GetPokemonListAsync();
-    }
-}
