@@ -22,7 +22,18 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<IPokeApiServiceShared, PokeApiService>();
 
 
+//SERVICIOS DE CONTROLLERS        --------------------------------------------------------------------------------------
+builder.Services.AddControllers();
+
+
 var app = builder.Build();
+
+
+// Configura la canalización HTTP -- ---- -------------
+app.UseRouting();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -45,5 +56,10 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(PokeApi.Client._Imports).Assembly);
+
+
+
+// Mapea los endpoints de los controllers --------------------------
+app.MapControllers();
 
 app.Run();
