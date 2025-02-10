@@ -1,5 +1,6 @@
 using PokeApi.Components;
 using PokeApi.Services;
+using MudBlazor.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ builder.Services.AddScoped<PokeApiService>();
 //SERVICIOS DE CONTROLLERS        --------------------------------------------------------------------------------------
 builder.Services.AddControllers();
 
+//SERVICIO DE MUD BLAZOR        --------------------------------------------------------------------------------------
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 
