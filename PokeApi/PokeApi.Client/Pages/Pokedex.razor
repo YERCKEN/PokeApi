@@ -9,6 +9,10 @@
 @using PokeApi.Shared.Services
 @inject IPokeApiServiceShared PokeApiService
 
+@* Usamos los servicios del clien *@
+@using Services;
+
+
 
 @* Agregamos componente con las carácteristicas del pokemon y le enviamos el parametro*@
 <div class="col-sm PokeList">
@@ -39,28 +43,31 @@
 
 
         <div class=" list-group d-grid listPokeBtns">
-         
+
             @foreach (var pokemon in _pokemons)
-                {
+            {
 
                 <button class="cursor-pointer list-group-item  @(_selectedPokemonName == pokemon.Name ? "PokeBnSelected" : "")" id="pokeListBtn"
-                     @onclick="() => SelectPokemon(pokemon.Name)">
+                @onclick="() => SelectPokemon(pokemon.Name)">
 
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(i).png" alt="Alternate Text" />
-                            @pokemon.Name
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(i).png" alt="Alternate Text" />
+                    @pokemon.Name
 
-                    </button>
+                </button>
 
-                    @* Incrementamos el contador *@
-                    i++;
+                @* Incrementamos el contador *@
+                i++;
 
-                }
+            }
         </div>
     }
 
 </div>
 
 @code {
+
+    // Declaramos una variable para el servicio
+    private PokeApiClientService _clientService;
     private List<PokemonListInfo>? _pokemons;
 
     // Nombre del Pokémon seleccionado inciialmente vacío
@@ -75,15 +82,23 @@
         }
     }
 
+
     // Método para obtener la lista de pokemones AL INICIAR la página
     protected override async Task OnInitializedAsync()
     {
-        _pokemons = await PokeApiService.GetPokemonListAsync();
+
+         // Instanciamos el servicio con nuestra direccion 
+        _clientService = new PokeApiClientService("https://localhost:7285/");
+
+        // Obtener la lista de pokémones desde el servicio
+        _pokemons = await _clientService.GetPokemonListAsync();
 
         // Selecciona el primer Pokémon por defecto si existe
         if (_pokemons?.Count > 0)
         {
             _selectedPokemonName = _pokemons.First().Name;
         }
+
+
     }
 }

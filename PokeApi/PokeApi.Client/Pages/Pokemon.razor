@@ -6,6 +6,9 @@
 @using PokeApi.Shared.Services
 @inject IPokeApiServiceShared PokeApiService
 
+@* Importamos los servicios del cliente *@
+@using Services;
+
 
 @* Verificamos si se encontró algún pokemón*@
 
@@ -89,10 +92,27 @@ else
 
 @code {
 
+    // Declaramos una variable para el servicio
+    private PokeApiClientService _clientService;
+
+    // Parámetro para recibir el nombre del pokemón
     [Parameter]
     public string Name { get; set; } = string.Empty;
+
+    // Variable para almacenar las características del pokemón
     private PokemonCharacteristics? pokemon;
+
+    // Variable para almacenar la imagen del pokemón
     private string? ImgPokemon;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Inicializar el cliente con la URL de la API
+        _clientService = new PokeApiClientService("https://localhost:7285/");
+
+    }
+
 
     //OnParametersSetAsync para detectar cambios en el parámetro
     protected override async Task OnParametersSetAsync()
@@ -105,7 +125,7 @@ else
 
         try
         {
-            pokemon = await PokeApiService.GetPokemonByNameAsync(Name);
+            pokemon = await _clientService.GetPokemonByNameAsync(Name);
 
             if (pokemon != null && !string.IsNullOrEmpty(pokemon.Name))
             {
