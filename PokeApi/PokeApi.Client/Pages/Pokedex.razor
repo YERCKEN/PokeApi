@@ -32,17 +32,25 @@
     }
     else // Si hay datos, se muestra la lista de pokemones
     {
+        @* Iniciamos el contador en 1 *@
+        int i = 1; 
+
         <div class=" list-group d-grid listPokeBtns">
          
             @foreach (var pokemon in _pokemons)
                 {
-                    <button class="cursor-pointer list-group-item" id="pokeListBtn" @onclick="() => SelectPokemon(pokemon.Name)">
 
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Alternate Text" />
-                        @pokemon.Name
+                <button class="cursor-pointer list-group-item  @(_selectedPokemonName == pokemon.Name ? "PokeBnSelected" : "")" id="pokeListBtn"
+                     @onclick="() => SelectPokemon(pokemon.Name)">
+
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(i).png" alt="Alternate Text" />
+                            @pokemon.Name
+
                     </button>
 
-                 
+                    @* Incrementamos el contador *@
+                    i++;
+
                 }
         </div>
     }
@@ -54,11 +62,6 @@
 
     // Nombre del Pokémon seleccionado inciialmente vacío
     private string _selectedPokemonName = string.Empty;
-
-    //Contador para mostrar la imagen de cada pokemon
-    //private int count = 1;
-
-
 
     // Método para seleccionar un Pokémon
     private void SelectPokemon(string name)

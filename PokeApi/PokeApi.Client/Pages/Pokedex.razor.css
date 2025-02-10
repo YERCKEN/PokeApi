@@ -24,3 +24,8 @@
 
  }
 
+.PokeBnSelected {
+    border: 2px dashed #3B4CCA;
+    color: #3B4CCA;
+}
+
