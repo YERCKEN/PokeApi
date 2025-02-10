@@ -1,10 +1,5 @@
-using PokeApi.Client.Pages;
-
 using PokeApi.Components;
 using PokeApi.Services;
-
-// Añadimos los servicios del proyecto compartido (para utilizar las interfaces)
-using PokeApi.Shared.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +14,7 @@ builder.Services.AddRazorComponents()
 // AddScoped = Crea una instancia por sesión del usuario
 
 // SERVICIO QUE envía 100 pokemones
-builder.Services.AddScoped<IPokeApiServiceShared, PokeApiService>();
+builder.Services.AddScoped<PokeApiService>();
 
 
 //SERVICIOS DE CONTROLLERS        --------------------------------------------------------------------------------------

@@ -1,12 +1,11 @@
 ﻿using RestSharp;
 // importamos los modelos desde el proyecto compartido
 using PokeApi.Shared.Models;
-// Importamos el servicio compartido para usar la interfaz
-using PokeApi.Shared.Services;
+
 
 namespace PokeApi.Services
 {
-    public class PokeApiService : IPokeApiServiceShared
+    public class PokeApiService 
     {
         //cantidad de pokemones a obtener
         private int _PokemonsAmount = 100;
