@@ -30,9 +30,10 @@
 
     <MudPaper Class="custom-outlined px-10 py-10" Outlined="true" Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
 
-        @* Mensaje al cargar los datos*@
+        @* Mosytramos el skeleton*@
         @if (_pokemons == null)
-        {   
+        {
+            @* for para generar los skeletons de cadad pokemon *@
             <div class="list-group d-grid listPokeBtns">
                 @for (int i = 0; i < 10; i++)
                 {
@@ -63,28 +64,34 @@
         }
         else // Si hay datos, se muestra la lista de pokemones
         {
-            @* Iniciamos el contador en 1 *@
-            int i = 1;
 
-            // Input para buscar un Pokémon
-            <div class=" list-group d-grid listPokeBtns">
+            <MudGrid Justify="Justify.Center"   Style="gap: 5px;">
+
 
                 @foreach (var pokemon in _pokemons)
                 {
 
-                    <button class="cursor-pointer list-group-item  @(_selectedPokemonName == pokemon.Name ? "PokeBnSelected" : "")" id="pokeListBtn"
-                            @onclick="() => SelectPokemon(pokemon.Name)">
+                   
+                    @* <button class=" h-full cursor-pointer  @(_selectedPokemonName == pokemon.Name ? "PokeBnSelected" : "border")" id="pokeListBtn"
+                    @onclick="() => SelectPokemon(pokemon.Name)" style="width: 100%; justify-content: start;">
 
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(i).png" alt="Alternate Text" />
-                        @pokemon.Name
+                        <img src="@pokemon.Sprite" />
+                        @pokemon.Name.ToUpper()
 
-                    </button>
+                    </button> *@
 
-                    @* Incrementamos el contador *@
-                    i++;
+                    
+                    <MudItem xs="5" Class="p-0" >
+
+                        <MudButton FullWidth="true" @onclick="() => SelectPokemon(pokemon.Name)" Class="border h-full">
+                            <img src="@pokemon.Sprite" />
+                            @pokemon.Name.ToUpper()
+                        </MudButton>
+
+                    </MudItem>
 
                 }
-            </div>
+            </MudGrid>
         }
     </MudPaper>
 
@@ -98,8 +105,11 @@
     private PokeApiClientService _clientService;
     private List<PokemonListInfo>? _pokemons;
 
+    public string img;
+
     // Nombre del Pokémon seleccionado inciialmente vacío
     private string _selectedPokemonName = string.Empty;
+
 
     // Método para seleccionar un Pokémon
     private void SelectPokemon(string name)
@@ -120,6 +130,20 @@
 
         // Obtener la lista de pokémones desde el servicio
         _pokemons = await _clientService.GetPokemonListAsync();
+
+
+        int x = 1;
+
+        foreach (var pokemon in _pokemons)
+        {
+          
+
+            pokemon.Sprite = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{x}.png";
+            x++;
+            Console.WriteLine(pokemon.Name);
+            Console.WriteLine(pokemon.Sprite);
+        }
+
 
         // Selecciona el primer Pokémon por defecto si existe
         if (_pokemons?.Count > 0)

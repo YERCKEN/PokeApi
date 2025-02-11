@@ -15,6 +15,8 @@ namespace PokeApi.Shared.Models
         public string Name { get; set; }
         public string Url { get; set; }
 
+        public string Sprite { get; set; }
+
     }
 
     // CARACTERISTICAS DEL POKEMON ()
