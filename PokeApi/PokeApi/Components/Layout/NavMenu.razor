@@ -2,31 +2,30 @@
 @using MudBlazor
 @using MudBlazor.Components
 
-<div class="top-row ps-3 navbar navbar-dark">
 
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">PokeApi</a>
-    </div>
 
-</div>
+<div class="nav-scrollable " onclick="document.querySelector('.navbar-toggler').click()"  >
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-
-    <nav class="flex-column">
-
-     
+    <nav class="flex-column ">
 
         @* // Pokedex --- ------------------------------------- - --------------------------------------- *@
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
 
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Pokedex
+        <MudPaper Class="d-inline-flex my-3 mud-width-full " Elevation="0">
 
-            </NavLink>
-        </div>
+            <MudNavMenu Class="mud-width-full" >
+
+         
+                <MudText Typo="Typo.h6" Class="px-4">PokeAPI</MudText>
+                <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary fst-italic">Consumer</MudText>
+
+                <MudDivider Class="my-2" />
+
+                <MudNavLink Href="/" Icon="@Icons.Material.Filled.Dashboard">Pokedex</MudNavLink>
+
+              
+            </MudNavMenu>
+        </MudPaper>
 
     </nav>
 </div>

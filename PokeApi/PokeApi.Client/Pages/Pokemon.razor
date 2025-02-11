@@ -1,5 +1,8 @@
 ﻿
 @rendermode InteractiveAuto
+@* Importamos MudBlazor *@
+@using MudBlazor
+@using MudBlazor.Components
 
 @* Importamos los modelos y servicios compartidos y inyectamos la interfaz*@
 @using PokeApi.Shared.Models
@@ -9,9 +12,63 @@
 
 @* Verificamos si se encontró algún pokemón*@
 
+
 @if (pokemon == null)
 {
-    <p>Selecciona un Pokémon</p>
+    @* Mostramos el esqueleton en caso de que no se halla seleccionado nada *@
+    <MudContainer Class="mt-20">
+
+
+        <MudGrid Justify="Justify.Center">
+            <MudItem >
+
+                <MudSkeleton SkeletonType="SkeletonType.Circle" Width="200px" Height="200px" />
+
+            </MudItem>
+        </MudGrid>
+
+
+        @* Nombre*@
+        <MudGrid Justify="Justify.Center" Class="mt-10">
+
+            <MudItem xs="6">
+
+                <MudSkeleton Height="80px" />
+
+            </MudItem>
+
+        </MudGrid>
+
+        @* labelTipo *@
+        <MudCardContent>
+            <MudSkeleton Width="10%" Class="ml-2" />
+        </MudCardContent>
+
+        @* Tipo *@
+        <MudGrid Justify="Justify.Center">
+
+            <MudSkeleton Width="45%" Height="90px;" Class="ml-4" />
+            <MudSkeleton Width="45%" Height="90px;" class="ml-4" />
+
+        </MudGrid>
+
+
+        @* labelHabilidades*@
+        <MudCardContent>
+            <MudSkeleton Width="10%" Class="ml-2" />
+        </MudCardContent>
+
+
+        @* Tipo *@
+        <MudGrid Justify="Justify.Center">
+
+            <MudSkeleton Width="45%" Height="90px;" Class="ml-4" />
+            <MudSkeleton Width="45%" Height="90px;" class="ml-4" />
+
+        </MudGrid>
+
+    </MudContainer>
+
 }
 // Si se encontró un pokemón, se muestra la información
 else

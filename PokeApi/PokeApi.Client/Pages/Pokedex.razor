@@ -1,5 +1,4 @@
-﻿
-@page "/"
+﻿@page "/"
 @rendermode InteractiveAuto
 
 @* Importamos modelos desde el proyecto compartido  . . .. .*@
@@ -12,59 +11,86 @@
 @using MudBlazor
 @using MudBlazor.Components
 
-
-<MudButton Variant="Variant.Filled" Color="Color.Secondary">Secondary</MudButton>
-
-
 @* Agregamos componente con las carácteristicas del pokemon y le enviamos el parametro*@
-<div class="col-sm PokeList">
 
-    <Pokemon Name="@_selectedPokemonName" />
+<MudItem xs="12" sm="12" md="6">
 
-</div>
+    <MudPaper Class="px-10" Outlined="true" Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
+
+        <Pokemon Name="@_selectedPokemonName" />
+
+    </MudPaper>
+
+</MudItem>
+
 
 @* Lista de Pokemones ------------------------------------------------------------- *@
 
-<div class="col-sm  PokeList">
+<MudItem xs="12" sm="12" md="6">
+
+    <MudPaper Class="custom-outlined px-10 py-10" Outlined="true" Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
+
+        @* Mensaje al cargar los datos*@
+        @if (_pokemons == null)
+        {   
+            <div class="list-group d-grid listPokeBtns">
+                @for (int i = 0; i < 10; i++)
+                {
+                    <MudCard>
+
+                        <MudCardHeader>
+
+                            <CardHeaderAvatar>
+                                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="60px" Width="60px" />
+                            </CardHeaderAvatar>
+
+                            <CardHeaderContent>
+                                <MudSkeleton Animation="Animation.Wave" Width="40%" />
+                                <MudSkeleton Animation="Animation.Wave" Width="60%" />
+                            </CardHeaderContent>
+
+                        </MudCardHeader>
 
 
-    @if (_pokemons == null)
-    {
-        <p>Cargando datos...</p>
-    }
-    else if (_pokemons.Count == 0)
-    {
-        <p>No se encontraron datos.</p>
-    }
-    else // Si hay datos, se muestra la lista de pokemones
-    {
-        @* Iniciamos el contador en 1 *@
-        int i = 1;
+                    </MudCard>
+                }
+            </div>
+        }
+        else if (_pokemons.Count == 0)
+        {
+            <MudAlert Severity="Severity.Error">No se encontraron datos.</MudAlert>
 
-        // Input para buscar un Pokémon
+        }
+        else // Si hay datos, se muestra la lista de pokemones
+        {
+            @* Iniciamos el contador en 1 *@
+            int i = 1;
+
+            // Input para buscar un Pokémon
+            <div class=" list-group d-grid listPokeBtns">
+
+                @foreach (var pokemon in _pokemons)
+                {
+
+                    <button class="cursor-pointer list-group-item  @(_selectedPokemonName == pokemon.Name ? "PokeBnSelected" : "")" id="pokeListBtn"
+                            @onclick="() => SelectPokemon(pokemon.Name)">
+
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(i).png" alt="Alternate Text" />
+                        @pokemon.Name
+
+                    </button>
+
+                    @* Incrementamos el contador *@
+                    i++;
+
+                }
+            </div>
+        }
+    </MudPaper>
+
+</MudItem>
 
 
-        <div class=" list-group d-grid listPokeBtns">
-
-            @foreach (var pokemon in _pokemons)
-            {
-
-                <button class="cursor-pointer list-group-item  @(_selectedPokemonName == pokemon.Name ? "PokeBnSelected" : "")" id="pokeListBtn"
-                @onclick="() => SelectPokemon(pokemon.Name)">
-
-                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(i).png" alt="Alternate Text" />
-                    @pokemon.Name
-
-                </button>
-
-                @* Incrementamos el contador *@
-                i++;
-
-            }
-        </div>
-    }
-
-</div>
 
 @code {
 
@@ -89,7 +115,7 @@
     protected override async Task OnInitializedAsync()
     {
 
-         // Instanciamos el servicio con nuestra direccion 
+        // Instanciamos el servicio con nuestra direccion
         _clientService = new PokeApiClientService("https://localhost:7285/");
 
         // Obtener la lista de pokémones desde el servicio

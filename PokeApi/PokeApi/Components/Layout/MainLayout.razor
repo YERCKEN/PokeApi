@@ -3,6 +3,7 @@
 @* Utilizamos MudBlazor*@
 @using MudBlazor
 
+
 @* Required *@
 <MudThemeProvider />
 <MudPopoverProvider />
@@ -13,32 +14,68 @@
 @* Needed for snackbars *@
 <MudSnackbarProvider />
 
+<MudLayout>
 
-<div class="page">
+    <MudAppBar Elevation="0" style="background-color: #f7f7f7;" Class="border" >
 
-    <div class="sidebar">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Primary" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+
+    </MudAppBar>
+
+    @* NAVBAR -- ---------------------------------  --------------------------- *@
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
+
+        @* Agregamos el componente NavMenu *@
         <NavMenu />
-    </div>
 
-    <main>
-        <div class="top-row px-4">
-        </div>
+    </MudDrawer>
 
-        <article class="content px-4 ">
+    @* CONTENIDO DEL BODY ----------------------------------- -- - - ----------- *@
+    <MudMainContent class="full-width px-5">
 
-            <div class="container">
-                <div class="row gap-5">
-                    @Body
-                </div>
-            </div>
+        <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
 
-      
-        </article>
-    </main>
-</div>
+            @*GRID ---------------*@
+            <MudGrid>
+
+                <MudItem xs="12" sm="12" > 
+
+                    <MudGrid>
+
+                        @*xs="12" ítem en dispositivos extra pequeños (xs)*@
+                        @*sm="12": dispositivos pequeños (sm). *@
+                        @*md = dispositivos de tamaño mediano.*@    
+                        
+                        @Body
+
+                    </MudGrid>
+
+                </MudItem>
+
+            </MudGrid>
+        </MudContainer>
+
+
+    </MudMainContent>
+
+</MudLayout>
+
+
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

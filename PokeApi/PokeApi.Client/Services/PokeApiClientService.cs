@@ -19,6 +19,7 @@ namespace PokeApi.Client.Services
         public async Task<List<PokemonListInfo>> GetPokemonListAsync()
         {
             Console.WriteLine("Obteniendo lista de pokémones desde el API en SERVER...");
+
             var request = new RestRequest("api/pokemon/list", Method.Get);
 
             // Realizar la petición al servidor
