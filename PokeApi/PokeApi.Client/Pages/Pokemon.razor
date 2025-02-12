@@ -15,7 +15,7 @@
 @if (pokemon == null)
 {
     @* Mostramos el esqueleton en caso de que no se halla seleccionado nada *@
-    <MudContainer Class="mt-20">
+    <MudContainer Class="">
 
 
         <MudGrid Justify="Justify.Center">
@@ -74,14 +74,14 @@ else
 {
 
     @* Se muestra la imagen del pokemón si existe *@
-    <MudGrid class="px-10 mt-4 border border-success" Justify="Justify.Center">
+    <MudGrid class="px-10 pb-10" Justify="Justify.Center" Style="gap: 5px;">
 
         <MudItem xs="12" md="12" lg="12" class=" d-flex justify-content-center  ">
 
 
             @if (!string.IsNullOrEmpty(ImgPokemon))
             {
-                <MudImage Src="@ImgPokemon" Class="w-50 border border-danger" Alt="@pokemon.Name" />
+                <MudImage Src="@ImgPokemon" Class="w-50" Alt="@pokemon.Name" />
             }
 
         </MudItem>
@@ -100,22 +100,22 @@ else
 
         @* Labe Tipo ----------------------------------------------------------------------------------- *@
 
-        <MudItem xs="12" md="12" lg="12" Class="mb-5">
+        <MudItem xs="12" md="12" lg="12" Class="">
 
             <MudText Typo="Typo.body1">Tipos</MudText>
 
-            <MudDivider />
 
         </MudItem>
 
+        @*Mostraos los tipos del Pokemon ---- --  - -*@
         @foreach (var type in pokemon.Types)
         {
 
-            <MudItem xs="12" md="6" lg="6" class="border p-0">
+            <MudItem xs="12" md="5" lg="5" class=" p-0">
 
                 <div class="d-flex justify-content-center  px-5 py-3 w-full h-full rounded  @GetTypeClass(type.Type.Name)">
 
-                    <MudText Typo="Typo.body1" Class="text-white text-bold">@type.Type.Name</MudText>
+                    <MudText Typo="Typo.body1" Class="text-white text-bold">@type.Type.Name.ToUpper()</MudText>
 
                 </div>
 
@@ -125,24 +125,28 @@ else
 
         @* Se muestran las habilidades del pokemon *@
 
-        @* Labe Habilidades ------------------------------------------------------------ *@
-        <div class="row mt-4">
-            <div class="col-12 text-start text-secondary">
-                <p class="fw-light fst-italic">Habilidades</p>
-            </div>
-        </div>
 
-        <div class="row mt-2 justify-content-center">
+        @* Labe Tipo ----------------------------------------------------------------------------------- *@
 
-            @foreach (var ability in pokemon.Abilities)
-            {
-                <div class="col-6 text-center p-3 border rounded">
+        <MudItem xs="12" md="12" lg="12" Class="">
 
-                    <span class="type-badge">@ability.Ability.Name</span>
+            <MudText Typo="Typo.body1">Hailidades</MudText>
 
-                </div>
-            }
-        </div>
+
+        </MudItem>
+
+
+
+        @foreach (var ability in pokemon.Abilities)
+        {
+
+            <MudItem xs="12" md="5" lg="5" class="border d-flex justify-content-center align-items-center" Style="padding: 0; ">
+
+                <MudText Typo="Typo.body1" Class="">@ability.Ability.Name.ToUpper()</MudText>
+
+            </MudItem>
+        }
+
 
     </MudGrid>
 
@@ -150,14 +154,12 @@ else
 
 
 
-
-   
 }
 
 
-    @code {
+@code {
 
-        // Declaramos una variable para el servicio
+    // Declaramos una variable para el servicio
     private PokeApiClientService _clientService;
 
     // Parámetro para recibir el nombre del pokemón
