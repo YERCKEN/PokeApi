@@ -28,34 +28,34 @@
 
 <MudItem xs="12" sm="12" md="6">
 
-    <MudPaper Class="custom-outlined px-10 py-10" Outlined="true" Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
+    <MudPaper Class="custom-outlined px-5 py-10" Outlined="true" Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
 
         @* Mosytramos el skeleton*@
         @if (_pokemons == null)
         {
             @* for para generar los skeletons de cadad pokemon *@
-            <div class="list-group d-grid listPokeBtns">
+             <MudGrid Justify="Justify.Center"   Style="gap: 5px;">
                 @for (int i = 0; i < 10; i++)
                 {
-                    <MudCard>
+                     <MudItem xs="5" Class="p-0" >
 
-                        <MudCardHeader>
+                        <MudCardHeader Class="pl-10">
 
                             <CardHeaderAvatar>
-                                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="60px" Width="60px" />
+                                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
                             </CardHeaderAvatar>
 
                             <CardHeaderContent>
-                                <MudSkeleton Animation="Animation.Wave" Width="40%" />
-                                <MudSkeleton Animation="Animation.Wave" Width="60%" />
+                   
+                                <MudSkeleton Animation="Animation.Wave" Width="70%" />
                             </CardHeaderContent>
 
                         </MudCardHeader>
 
 
-                    </MudCard>
+                    </MudItem>
                 }
-            </div>
+            </MudGrid>
         }
         else if (_pokemons.Count == 0)
         {
@@ -71,21 +71,17 @@
                 @foreach (var pokemon in _pokemons)
                 {
 
-                   
-                    @* <button class=" h-full cursor-pointer  @(_selectedPokemonName == pokemon.Name ? "PokeBnSelected" : "border")" id="pokeListBtn"
-                    @onclick="() => SelectPokemon(pokemon.Name)" style="width: 100%; justify-content: start;">
-
-                        <img src="@pokemon.Sprite" />
-                        @pokemon.Name.ToUpper()
-
-                    </button> *@
-
                     
                     <MudItem xs="5" Class="p-0" >
 
-                        <MudButton FullWidth="true" @onclick="() => SelectPokemon(pokemon.Name)" Class="border h-full">
-                            <img src="@pokemon.Sprite" />
+                        <MudButton FullWidth="true" @onclick="() => SelectPokemon(pokemon.Name)" Class="border h-full"
+                                   Variant="@(_selectedPokemonName == pokemon.Name ?  Variant.Outlined  : Variant.Outlined)"
+                                   Color="@(_selectedPokemonName == pokemon.Name ? Color.Primary : Color.Default)"> 
+
+
+                            <MudImage Src="@pokemon.Sprite" Style="width: 40%;" />
                             @pokemon.Name.ToUpper()
+
                         </MudButton>
 
                     </MudItem>
