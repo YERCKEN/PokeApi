@@ -10,15 +10,14 @@
     <Pokemon Name="@_selectedPokemonName"/>
 </MudItem>
 
-
 <MudItem xs="12" sm="12" lg="1" md="1" Class="">
-  
 </MudItem>
 
 @* LISTADO DE POKEMONES------------------------------------------------------*@
-<MudItem xs="12" sm="12" md="6" Style="padding: 0;">
-    <MudPaper Class="custom-outlined px-5 py-10" Outlined="true"
-              Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
+<MudItem xs="12" sm="12" md="6" Class="border rounded" >
+    
+    <MudItem Class="py-10 px-10 " Outlined="true"
+              Style="max-height: 80vh; overflow-y: auto; height: 80vh; padding: 0;">
 
         @*Si el listado es nulo, mostramos un skeleton mientras carga los datos*@
         @if (_pokemons == null)
@@ -41,7 +40,7 @@
                 }
             </MudGrid>
         }
-        
+
         @* Si no se encuentran pokemones mostramos el aviso *@
         else if (_pokemons.Count == 0)
         {
@@ -49,21 +48,14 @@
         }
         else
         {
-           
+            <MudGrid Justify="Justify.Center" Class="">
 
-        
-            <MudGrid Justify="Justify.Center" Style="gap: 5px;">
-                
-                <MudItem xs="12" md="10" lg="11">
-                    <!-- Input para realizar la búsqueda-->
-                    <MudTextField @bind-Value="_searchTerm"
-                                  Placeholder="Buscar por nombre..."
-                                  Immediate="true"
-                                  Variant="Variant.Outlined"
-                                  FullWidth="true"
-                                  Class="mb-4"/>
+                <!-- Input para realizar la búsqueda-->
+                <MudItem xs="12" md="12" lg="12"  Class=" p-0">
+                    <MudTextField @bind-Value="_searchTerm" Placeholder="Buscar por nombre..." Immediate="true" Variant="Variant.Outlined" FullWidth="true" Class="mb-4"/>
                 </MudItem>
-                
+
+                @* Verificamos si hay pokemones *@
                 @if (FilteredPokemons.Count == 0)
                 {
                     <MudItem xs="12">
@@ -74,13 +66,13 @@
                 {
                     @foreach (var pokemon in FilteredPokemons)
                     {
-                        <MudItem xs="5" Class="p-0">
+                        <MudItem xs="12" md="12" lg="6" xl="4"  Class="p-0" >
                             <MudButton FullWidth="true"
                                        @onclick="() => SelectPokemon(pokemon.Name)"
-                                       Class="border h-full"
+                                       Class="border h-full d-flex align-center justify-center mud-width-full"
                                        Color="@(_selectedPokemonName == pokemon.Name ? Color.Primary : Color.Default)"
                                        Variant="@(_selectedPokemonName == pokemon.Name ? Variant.Filled : Variant.Outlined)">
-                                <MudImage Src="@pokemon.Sprite" Style="width: 40% " />
+                                <MudImage Src="@pokemon.Sprite" Style="width: 40% "/>
                                 @pokemon.Name.ToUpper()
                             </MudButton>
                         </MudItem>
@@ -88,7 +80,8 @@
                 }
             </MudGrid>
         }
-    </MudPaper>
+    </MudItem>
+    
 </MudItem>
 
 @code {
@@ -108,6 +101,7 @@
         if (!string.IsNullOrEmpty(name))
         {
             _selectedPokemonName = name;
+            _searchTerm = "";
         }
     }
 
