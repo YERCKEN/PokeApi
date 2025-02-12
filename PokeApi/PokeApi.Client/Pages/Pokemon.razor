@@ -12,60 +12,16 @@
 @if (pokemon == null)
 {
     @* Mostramos el esqueleton en caso de que no se halla seleccionado nada *@
-    <MudContainer Class="">
+    <MudGrid class="px-10 pb-10" Justify="Justify.Center" Style="gap: 5px;">
+
+        <MudItem xs="12" md="12" lg="12" class=" d-flex justify-content-center align-items-center">
+            
+            <MudProgressCircular Class="" Color="Color.Primary" Indeterminate="true"/>
+            
+        </MudItem>
         
-        @* Circulo *@
-        <MudGrid Justify="Justify.Center">
-            <MudItem>
-
-                <MudSkeleton SkeletonType="SkeletonType.Circle" Width="200px" Height="200px"/>
-
-            </MudItem>
-        </MudGrid>
-
-
-        @* Nombre*@
-        <MudGrid Justify="Justify.Center" Class="mt-10">
-
-            <MudItem xs="6">
-
-                <MudSkeleton Height="80px"/>
-
-            </MudItem>
-
-        </MudGrid>
-
-        @* labelTipo *@
-        <MudCardContent>
-            <MudSkeleton Width="10%" Class="ml-2"/>
-        </MudCardContent>
-
-        @* Tipo *@
-        <MudGrid Justify="Justify.Center">
-
-            <MudSkeleton Width="45%" Height="90px;" Class="ml-4"/>
-            <MudSkeleton Width="45%" Height="90px;" class="ml-4"/>
-
-        </MudGrid>
-
-
-        @* labelHabilidades*@
-        <MudCardContent>
-            <MudSkeleton Width="10%" Class="ml-2"/>
-        </MudCardContent>
-
-
-        @* Tipo *@
-        <MudGrid Justify="Justify.Center">
-
-            <MudSkeleton Width="45%" Height="90px;" Class="ml-4"/>
-            <MudSkeleton Width="45%" Height="90px;" class="ml-4"/>
-
-        </MudGrid>
-
-    </MudContainer>
+    </MudGrid>
 }
-
 // Si se encontro un pokemón, se muestra la información
 else
 {
@@ -95,11 +51,9 @@ else
 
         @* Labe Tipo ----------------------------------------------------------------------------------- *@
 
-        <MudItem xs="12" md="12" lg="12" Class="">
-
+        <MudItem xs="12" md="12" lg="12" >
             <MudText Typo="Typo.body1">Tipos</MudText>
-
-
+            
         </MudItem>
 
         @*Mostraos los tipos del Pokemon ---- --  - -*@
