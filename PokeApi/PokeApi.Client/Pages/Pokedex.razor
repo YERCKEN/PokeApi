@@ -13,14 +13,10 @@
 
 @* Agregamos componente con las carácteristicas del pokemon y le enviamos el parametro*@
 
-<MudItem xs="12" sm="12" md="6">
+<MudItem xs="12" sm="12" md="6" Class="border border-primary d-flex justify-content-center" >
 
-    <MudPaper Class="px-10" Outlined="true" Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
 
         <Pokemon Name="@_selectedPokemonName" />
-
-    </MudPaper>
-
 </MudItem>
 
 
@@ -77,7 +73,6 @@
                         <MudButton FullWidth="true" @onclick="() => SelectPokemon(pokemon.Name)" Class="border h-full"
                                    Variant="@(_selectedPokemonName == pokemon.Name ?  Variant.Outlined  : Variant.Outlined)"
                                    Color="@(_selectedPokemonName == pokemon.Name ? Color.Primary : Color.Default)"> 
-
 
                             <MudImage Src="@pokemon.Sprite" Style="width: 40%;" />
                             @pokemon.Name.ToUpper()
