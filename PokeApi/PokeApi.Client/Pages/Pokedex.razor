@@ -1,108 +1,108 @@
 ﻿@page "/"
 @rendermode InteractiveAuto
 
-@* Importamos modelos desde el proyecto compartido  . . .. .*@
 @using PokeApi.Shared.Models
-
-@* Usamos los servicios del clien *@
 @using Services;
-
-@* Importamos MudBlazor *@
 @using MudBlazor
-@using MudBlazor.Components
 
-@* Agregamos componente con las carácteristicas del pokemon y le enviamos el parametro*@
-
-<MudItem xs="12" sm="12" md="5" Class="border rounde d-flex justify-content-center" >
-
-
-        <Pokemon Name="@_selectedPokemonName" />
+@* Mostramos el componente (Pokemon)  ------------------------------------------------------*@
+<MudItem xs="12" sm="12" lg="5" md="5" Class="border rounded d-flex justify-content-center">
+    <Pokemon Name="@_selectedPokemonName"/>
 </MudItem>
 
 
-@* Lista de Pokemones ------------------------------------------------------------- *@
+<MudItem xs="12" sm="12" lg="1" md="1" Class="">
+  
+</MudItem>
 
+@* LISTADO DE POKEMONES------------------------------------------------------*@
 <MudItem xs="12" sm="12" md="6" Style="padding: 0;">
+    <MudPaper Class="custom-outlined px-5 py-10" Outlined="true"
+              Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
 
-    <MudPaper Class="custom-outlined px-5 py-10" Outlined="true" Style="max-height: 80vh; overflow-y: auto; height: 80vh;">
-
-        @* Mosytramos el skeleton*@
+        @*Si el listado es nulo, mostramos un skeleton mientras carga los datos*@
         @if (_pokemons == null)
         {
-            @* for para generar los skeletons de cadad pokemon *@
-             <MudGrid Justify="Justify.Center"   Style="gap: 5px;">
+            <!-- Generamos 10 skeletons para simular la lista de los pokemones -->
+            <MudGrid Justify="Justify.Center" Style="gap: 5px;">
                 @for (int i = 0; i < 10; i++)
                 {
-                     <MudItem xs="5" Class="p-0" >
-
+                    <MudItem xs="5" Class="p-0">
                         <MudCardHeader Class="pl-10">
-
                             <CardHeaderAvatar>
-                                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px" Width="50px" />
+                                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="50px"
+                                             Width="50px"/>
                             </CardHeaderAvatar>
-
                             <CardHeaderContent>
-                   
-                                <MudSkeleton Animation="Animation.Wave" Width="70%" />
+                                <MudSkeleton Animation="Animation.Wave" Width="70%"/>
                             </CardHeaderContent>
-
                         </MudCardHeader>
-
-
                     </MudItem>
                 }
             </MudGrid>
         }
+        
+        @* Si no se encuentran pokemones mostramos el aviso *@
         else if (_pokemons.Count == 0)
         {
             <MudAlert Severity="Severity.Error">No se encontraron datos.</MudAlert>
-
         }
-        else // Si hay datos, se muestra la lista de pokemones
+        else
         {
+           
 
-            <MudGrid Justify="Justify.Center"   Style="gap: 5px;">
-
-
-                @foreach (var pokemon in _pokemons)
+        
+            <MudGrid Justify="Justify.Center" Style="gap: 5px;">
+                
+                <MudItem xs="12" md="10" lg="11">
+                    <!-- Input para realizar la búsqueda-->
+                    <MudTextField @bind-Value="_searchTerm"
+                                  Placeholder="Buscar por nombre..."
+                                  Immediate="true"
+                                  Variant="Variant.Outlined"
+                                  FullWidth="true"
+                                  Class="mb-4"/>
+                </MudItem>
+                
+                @if (FilteredPokemons.Count == 0)
                 {
-
-                    
-                    <MudItem xs="5" Class="p-0" >
-
-                        <MudButton FullWidth="true" @onclick="() => SelectPokemon(pokemon.Name)" Class="border h-full"
-                                   Variant="@(_selectedPokemonName == pokemon.Name ?  Variant.Outlined  : Variant.Outlined)"
-                                   Color="@(_selectedPokemonName == pokemon.Name ? Color.Primary : Color.Default)"> 
-
-                            <MudImage Src="@pokemon.Sprite" Style="width: 40%;" />
-                            @pokemon.Name.ToUpper()
-
-                        </MudButton>
-
+                    <MudItem xs="12">
+                        <MudAlert Severity="Severity.Info">El Pokemon no Existe.</MudAlert>
                     </MudItem>
-
+                }
+                else
+                {
+                    @foreach (var pokemon in FilteredPokemons)
+                    {
+                        <MudItem xs="5" Class="p-0">
+                            <MudButton FullWidth="true"
+                                       @onclick="() => SelectPokemon(pokemon.Name)"
+                                       Class="border h-full"
+                                       Color="@(_selectedPokemonName == pokemon.Name ? Color.Primary : Color.Default)"
+                                       Variant="@(_selectedPokemonName == pokemon.Name ? Variant.Filled : Variant.Outlined)">
+                                <MudImage Src="@pokemon.Sprite" Style="width: 40% " />
+                                @pokemon.Name.ToUpper()
+                            </MudButton>
+                        </MudItem>
+                    }
                 }
             </MudGrid>
         }
     </MudPaper>
-
 </MudItem>
 
-
-
 @code {
-
-    // Declaramos una variable para el servicio
     private PokeApiClientService _clientService;
     private List<PokemonListInfo>? _pokemons;
-
-    public string img;
-
-    // Nombre del Pokémon seleccionado inciialmente vacío
     private string _selectedPokemonName = string.Empty;
+    private string _searchTerm = string.Empty; // Variable para el término de búsqueda
 
+    // Propiedad calculada para filtrar Pokémon
+    private List<PokemonListInfo> FilteredPokemons => _pokemons?
+        .Where(p => string.IsNullOrEmpty(_searchTerm) ||
+                    p.Name.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase))
+        .ToList() ?? new List<PokemonListInfo>();
 
-    // Método para seleccionar un Pokémon
     private void SelectPokemon(string name)
     {
         if (!string.IsNullOrEmpty(name))
@@ -111,37 +111,20 @@
         }
     }
 
-
-    // Método para obtener la lista de pokemones AL INICIAR la página
     protected override async Task OnInitializedAsync()
     {
-
-        // Instanciamos el servicio con nuestra direccion
         _clientService = new PokeApiClientService("https://localhost:7285/");
-
-        // Obtener la lista de pokémones desde el servicio
         _pokemons = await _clientService.GetPokemonListAsync();
 
-
-        int x = 1;
-
-        foreach (var pokemon in _pokemons)
+        if (_pokemons != null)
         {
-          
+            for (int i = 0; i < _pokemons.Count; i++)
+            {
+                _pokemons[i].Sprite = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{i + 1}.png";
+            }
 
-            pokemon.Sprite = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{x}.png";
-            x++;
-            Console.WriteLine(pokemon.Name);
-            Console.WriteLine(pokemon.Sprite);
-        }
-
-
-        // Selecciona el primer Pokémon por defecto si existe
-        if (_pokemons?.Count > 0)
-        {
             _selectedPokemonName = _pokemons.First().Name;
         }
-
-
     }
+
 }
