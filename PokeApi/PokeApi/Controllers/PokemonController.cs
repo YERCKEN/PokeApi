@@ -9,8 +9,7 @@ namespace PokeApi.Controllers
     {
         // Instanciamos el servicio 
         private readonly PokeApiService _pokeApiService = new PokeApiService();
-
-
+        
         // Endpoint para obtener un listado de 100 pokémones
         // Ejemplo de llamada: GET api/pokemon/list
         [HttpGet("list")]
